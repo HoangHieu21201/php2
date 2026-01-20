@@ -1,0 +1,33 @@
+# Composer Dependencies (Thư viện tải về, không up lên git)
+/vendor/
+composer.lock
+
+# Environment Variables (Chứa mật khẩu, API key - Tuyệt đối không up)
+.env
+.env.backup
+.env.production
+/app/.env
+
+# Uploaded Files (Ảnh người dùng upload thì không nên up lên code source)
+# Giữ lại thư mục uploads nhưng bỏ qua file bên trong
+/uploads/*
+!/uploads/.gitkeep
+/public/uploads/*
+!/public/uploads/.gitkeep
+
+# Ignore app/public folder as requested
+/app/public/*
+!/app/public/.gitkeep
+
+# Storage & Cache (File tạm, logs, cache)
+/storage/*
+!/storage/.gitkeep
+*.log
+
+# System Files (File rác của hệ điều hành)
+.DS_Store
+Thumbs.db
+
+# IDE / Editor (Cấu hình riêng của editor)
+.idea/
+.vscode/
