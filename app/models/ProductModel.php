@@ -44,7 +44,7 @@ class ProductModel extends Model
     // 4. Cập nhật
     public function update($id, $data)
     {
-        $data['id'] = $id; // Thêm ID vào mảng data để bind
+        $data['id'] = $id; 
         $sql = "UPDATE $this->table SET 
                 name = :name, 
                 price = :price, 

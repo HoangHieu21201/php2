@@ -149,26 +149,15 @@
 
 <body>
 
-    <!-- Overlay cho Mobile -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- ======================================================= -->
-    <!-- 1. GỌI SIDEBAR VÀO ĐÂY -->
-    <!-- ======================================================= -->
     @include('layout.components.admin.sidebar')
 
     
-    <!-- Wrapper chứa Header và Nội dung chính -->
     <div class="main-wrapper">
 
-        <!-- ======================================================= -->
-        <!-- 2. GỌI HEADER VÀO ĐÂY -->
-        <!-- ======================================================= -->
         @include('layout.components.admin.header')
 
-        <!-- ======================================================= -->
-        <!-- 3. NƠI CÁC TRANG CON ĐỔ NỘI DUNG VÀO -->
-        <!-- ======================================================= -->
         <main class="p-4">
             @yield('content')
         </main>
@@ -176,10 +165,8 @@
     </div>
 
 
-    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Script xử lý đóng mở Sidebar (JS CỦA BẠN Ở ĐÂY) -->
     <script>
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');

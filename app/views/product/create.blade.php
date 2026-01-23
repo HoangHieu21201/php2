@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="vi">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thêm Sản phẩm</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+@extends('layout.adminLayout')
+@section('content')
+    {{-- 2. Phần CSS riêng cho trang này (nếu cần), nhưng tốt nhất nên để chung vào file CSS global --}}
     <style>
         :root {
             --primary-color: #009981;
@@ -38,11 +32,8 @@
             color: #555;
         }
     </style>
-</head>
 
-<body>
-  @include('layout.components.header')
-    
+
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -50,12 +41,14 @@
                     <h4 class="fw-bold text-brand m-0">Thêm Sản phẩm mới</h4>
                     <a href="/product" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Quay lại</a>
                 </div>
-                <?php if (isset($mess)): ?>
+                {{-- tìm kiếm --}}
+
+                @if (isset($mess))
                     <div class="alert alert-success d-flex align-items-center" role="alert">
                         <i class="bi bi-check-circle-fill me-2"></i>
                         <div><?= $mess ?></div>
                     </div>
-                <?php endif; ?>
+                @endif
                 <form action="/product/store" method="POST" enctype="multipart/form-data">
                     <div class="card p-4">
                         <div class="row g-3">
@@ -63,13 +56,14 @@
                             <div class="col-md-8">
                                 <div class="mb-3">
                                     <label class="form-label">Tên sản phẩm <span class="text-danger">*</span></label>
-                                    <input type="text" name="name" class="form-control"  placeholder="Nhập tên Figure...">
+                                    <input type="text" name="name" class="form-control"
+                                        placeholder="Nhập tên Figure...">
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Giá bán (VND) <span class="text-danger">*</span></label>
-                                        <input type="number" name="price" class="form-control"  placeholder="500000">
+                                        <input type="number" name="price" class="form-control" placeholder="500000">
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Giá gốc (VND)</label>
@@ -87,7 +81,6 @@
                                 </div>
                             </div>
 
-                            <!-- Cột phải: Cấu hình & Ảnh -->
                             <div class="col-md-4">
                                 <div class="mb-3">
                                     <label class="form-label">Ảnh đại diện</label>
@@ -99,9 +92,9 @@
                                     <label class="form-label">Danh mục <span class="text-danger">*</span></label>
                                     <select name="category_id" class="form-select">
                                         <option value="">-- Chọn danh mục --</option>
-                                        <?php foreach ($categories as $c): ?>
+                                        @foreach ($categories as $c)
                                             <option value="<?= $c['id'] ?>"><?= htmlspecialchars($c['name']) ?></option>
-                                        <?php endforeach; ?>
+                                        @endforeach
                                     </select>
                                 </div>
 
@@ -109,11 +102,11 @@
                                     <label class="form-label">Thương hiệu</label>
                                     <select name="brand_id" class="form-select">
                                         <option value="">-- Chọn thương hiệu --</option>
-                                        <?php foreach ($brands as $b): ?>
+                                        @foreach ($brands as $b)
                                             <option value="<?= $b['id'] ?>"><?= $b['name'] ?></option>
-                                        <?php endforeach; ?>
+                                        @endforeach
                                     </select>
-                                </div> 
+                                </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Số lượng kho</label>
@@ -129,7 +122,8 @@
                                 </div>
 
                                 <hr>
-                                <button type="submit" class="btn btn-brand w-100 fw-bold py-2"><i class="bi bi-save me-1"></i> Lưu sản phẩm</button>
+                                <button type="submit" class="btn btn-brand w-100 fw-bold py-2"><i
+                                        class="bi bi-save me-1"></i> Lưu sản phẩm</button>
                             </div>
                         </div>
                     </div>
@@ -137,6 +131,4 @@
             </div>
         </div>
     </div>
-</body>
-
-</html>
+@endsection

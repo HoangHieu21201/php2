@@ -1,14 +1,12 @@
 <?php
 class ProductController extends Controller {
 
-    // 1. Danh sách
     public function index() {
         $productModel = $this->model('ProductModel');
         $data = $productModel->all();
         $this->view('product/index', ['products' => $data]);
     }
 
-    // 2. Form Thêm
     public function create() {
         $categories = $this->model('CategoryModel')->all();
 
@@ -18,10 +16,8 @@ class ProductController extends Controller {
         ]);
     }
 
-    // 3. Xử lý Lưu
     public function store() {
         $imagePath = ''; 
-        // validate dữ liệu hợp lệ không để trống khống số âm
         if (empty($_POST['name']) || strlen($_POST['name']) < 3 || strlen($_POST['name']) > 255) {
             $mess = "Tên sản phẩm không được để trống, khống ít hơn 3 hoặc nhiều hơn 255 ký tự";
             $categories = $this->model('CategoryModel')->all();
@@ -43,7 +39,6 @@ class ProductController extends Controller {
             ]);
             return;
         }
-        // giá không quá lớn 
         if ($_POST['price'] > 999999999) {
             $mess = "Giá bán không hợp lệ!";
             $categories = $this->model('CategoryModel')->all();
@@ -54,7 +49,6 @@ class ProductController extends Controller {
             ]);
             return;
         }
-        // giá bán không được lướn hơn giá gốc 
         if (!empty($_POST['sale_price']) && $_POST['sale_price'] > $_POST['price']) {
             $mess = "Giá bán không được lớn hơn giá gốc!";
             $categories = $this->model('CategoryModel')->all();

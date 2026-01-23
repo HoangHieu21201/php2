@@ -1,19 +1,26 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <title>Thêm Người dùng</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+@extends('layout.adminLayout')
+
+@section('content')
     <style>
-        :root { --primary-color: #009981; }
-        .text-brand { color: var(--primary-color) !important; }
-        .btn-brand { background-color: var(--primary-color); color: white; }
-        .btn-brand:hover { background-color: #007a67; color: white; }
+        :root {
+            --primary-color: #009981;
+        }
+
+        .text-brand {
+            color: var(--primary-color) !important;
+        }
+
+        .btn-brand {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-brand:hover {
+            background-color: #007a67;
+            color: white;
+        }
     </style>
-</head>
-<body>
-    <?php require_once APP_PATH . '/views/layout/components/header.blade.php'; ?>
+
 
 
     <div class="container py-5">
@@ -33,7 +40,8 @@
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Email (Tài khoản) <span class="text-danger">*</span></label>
-                            <input type="email" name="email" class="form-control" required placeholder="example@mail.com">
+                            <input type="email" name="email" class="form-control" required
+                                placeholder="example@mail.com">
                         </div>
 
                         <div class="mb-3">
@@ -74,5 +82,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+@endsection
