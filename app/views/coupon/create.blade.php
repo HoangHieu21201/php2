@@ -2,12 +2,16 @@
 
 @section('content')
     <style>
+        :root {
+            --primary-color: #009981;
+        }
+
         .text-brand {
-            color: #009981 !important;
+            color: var(--primary-color) !important;
         }
 
         .btn-brand {
-            background-color: #009981;
+            background-color: var(--primary-color);
             color: white;
         }
 
@@ -15,80 +19,124 @@
             background-color: #007a67;
             color: white;
         }
+
+        .card {
+            border: none;
+            box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+            border-radius: 0.5rem;
+        }
     </style>
 
-    <div class="container-fluid px-4 py-4">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white py-3">
-                <h4 class="mb-0 fw-bold text-brand"><i class="bi bi-plus-circle me-2"></i>Thêm mới mã giảm giá</h4>
-            </div>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="fw-bold text-brand m-0">Thêm Mã giảm giá</h4>
+                    <a href="/coupon" class="btn btn-outline-secondary btn-sm">
+                        <i class="bi bi-arrow-left me-1"></i> Quay lại
+                    </a>
+                </div>
 
-            <div class="card-body">
-                <!-- Form Action trỏ về controller xử lý -->
+                <?php if (isset($mess)): ?>
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <div><?= $mess ?></div>
+                </div>
+                <?php endif; ?>
+
                 <form action="/coupon/store" method="POST">
-                    <div class="row">
-                        <!-- Cột trái: Thông tin cơ bản -->
-                        <div class="col-md-6 mb-3">
-                            <label for="code" class="form-label fw-bold">Mã Coupon <span
-                                    class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="code" name="code"
-                                placeholder="VD: SALE50, TET2025" required>
-                            <small class="text-muted">Mã phải là duy nhất, không dấu, viết liền.</small>
-                        </div>
-
-                        <div class="col-md-3 mb-3">
-                            <label for="type" class="form-label fw-bold">Loại giảm <span
-                                    class="text-danger">*</span></label>
-                            <select class="form-select" id="type" name="type">
-                                <option value="fixed">Giảm theo tiền mặt (VNĐ)</option>
-                                <option value="percent">Giảm theo phần trăm (%)</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-3 mb-3">
-                            <label for="value" class="form-label fw-bold">Giá trị giảm <span
-                                    class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="value" name="value" min="0"
-                                required>
-                            <small class="text-muted">Nhập số tiền hoặc số %</small>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="min_order_value" class="form-label fw-bold">Đơn hàng tối thiểu</label>
-                            <div class="input-group">
-                                <input type="number" class="form-control" id="min_order_value" name="min_order_value"
-                                    value="0">
-                                <span class="input-group-text">VNĐ</span>
+                    <div class="card p-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Mã Coupon <span class="text-danger">*</span></label>
+                                <input type="text" name="code" 
+                                       class="form-control <?= isset($errors['code']) ? 'is-invalid' : '' ?>" 
+                                       value="<?= htmlspecialchars($old['code'] ?? '') ?>"
+                                       placeholder="VD: SALE50">
+                                <?php if(isset($errors['code'])): ?>
+                                    <div class="invalid-feedback"><?= $errors['code'] ?></div>
+                                <?php endif; ?>
                             </div>
-                            <small class="text-muted">Giá trị đơn hàng tối thiểu để áp dụng mã.</small>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Trạng thái</label>
+                                <select name="status" class="form-select">
+                                    <option value="1" <?= (isset($old['status']) && $old['status'] == 1) ? 'selected' : '' ?>>Hoạt động</option>
+                                    <option value="0" <?= (isset($old['status']) && $old['status'] == 0) ? 'selected' : '' ?>>Tạm khóa</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label for="status" class="form-label fw-bold">Trạng thái</label>
-                            <select class="form-select" id="status" name="status">
-                                <option value="1" selected>Hoạt động</option>
-                                <option value="0">Tạm khóa</option>
-                            </select>
-                        </div>
-                    </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Loại giảm <span class="text-danger">*</span></label>
+                                <select name="type" class="form-select <?= isset($errors['type']) ? 'is-invalid' : '' ?>">
+                                    <option value="fixed" <?= (isset($old['type']) && $old['type'] == 'fixed') ? 'selected' : '' ?>>Tiền mặt (VNĐ)</option>
+                                    <option value="percent" <?= (isset($old['type']) && $old['type'] == 'percent') ? 'selected' : '' ?>>Phần trăm (%)</option>
+                                </select>
+                                <?php if(isset($errors['type'])): ?>
+                                    <div class="invalid-feedback"><?= $errors['type'] ?></div>
+                                <?php endif; ?>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label for="start_date" class="form-label fw-bold">Ngày bắt đầu</label>
-                            <input type="datetime-local" class="form-control" id="start_date" name="start_date">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Giá trị giảm <span class="text-danger">*</span></label>
+                                <input type="number" name="value" 
+                                       class="form-control <?= isset($errors['value']) ? 'is-invalid' : '' ?>"
+                                       value="<?= $old['value'] ?? '' ?>" min="0">
+                                <?php if(isset($errors['value'])): ?>
+                                    <div class="invalid-feedback"><?= $errors['value'] ?></div>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="end_date" class="form-label fw-bold">Ngày kết thúc</label>
-                            <input type="datetime-local" class="form-control" id="end_date" name="end_date">
-                        </div>
-                    </div>
 
-                    <div class="d-flex justify-content-end mt-3">
-                        <a href="/coupon" class="btn btn-light border me-2">Hủy bỏ</a>
-                        <button type="submit" class="btn btn-brand px-4"><i class="bi bi-save me-2"></i>Lưu mã giảm
-                            giá</button>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Đơn tối thiểu</label>
+                                <input type="number" name="min_order_value" 
+                                       class="form-control <?= isset($errors['min_order_value']) ? 'is-invalid' : '' ?>"
+                                       value="<?= $old['min_order_value'] ?? 0 ?>" min="0">
+                                <?php if(isset($errors['min_order_value'])): ?>
+                                    <div class="invalid-feedback"><?= $errors['min_order_value'] ?></div>
+                                <?php endif; ?>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Lượt dùng tối đa</label>
+                                <input type="number" name="max_usage" 
+                                       class="form-control <?= isset($errors['max_usage']) ? 'is-invalid' : '' ?>"
+                                       value="<?= $old['max_usage'] ?? '' ?>" placeholder="Để trống = Không giới hạn">
+                                <?php if(isset($errors['max_usage'])): ?>
+                                    <div class="invalid-feedback"><?= $errors['max_usage'] ?></div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Ngày bắt đầu</label>
+                                <input type="datetime-local" name="start_date" 
+                                       class="form-control"
+                                       value="<?= $old['start_date'] ?? '' ?>">
+                                <small class="text-muted">Mặc định: Ngay bây giờ</small>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label fw-bold">Ngày kết thúc</label>
+                                <input type="datetime-local" name="end_date" 
+                                       class="form-control <?= isset($errors['end_date']) ? 'is-invalid' : '' ?>"
+                                       value="<?= $old['end_date'] ?? '' ?>">
+                                <?php if(isset($errors['end_date'])): ?>
+                                    <div class="invalid-feedback"><?= $errors['end_date'] ?></div>
+                                <?php else: ?>
+                                    <small class="text-muted">Để trống: Vĩnh viễn</small>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-brand w-100 fw-bold py-2 mt-2">
+                            <i class="bi bi-save me-1"></i> Lưu mã giảm giá
+                        </button>
                     </div>
                 </form>
             </div>
