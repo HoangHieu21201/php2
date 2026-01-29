@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản trị Hệ thống - Master Layout</title>
-    <!-- Bootstrap 5 CSS -->
+    <title>Quản trị Hệ thống</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-    <!-- CSS CỦA BẠN NẰM Ở ĐÂY -->
     <style>
         :root {
             --primary-color: #009981;
@@ -152,23 +150,16 @@
     <!-- Overlay cho Mobile -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- ======================================================= -->
     <!-- 1. GỌI SIDEBAR VÀO ĐÂY -->
-    <!-- ======================================================= -->
     @include('layout.components.admin.sidebar')
 
-    
+
     <!-- Wrapper chứa Header và Nội dung chính -->
     <div class="main-wrapper">
 
-        <!-- ======================================================= -->
         <!-- 2. GỌI HEADER VÀO ĐÂY -->
-        <!-- ======================================================= -->
         @include('layout.components.admin.header')
-
-        <!-- ======================================================= -->
         <!-- 3. NƠI CÁC TRANG CON ĐỔ NỘI DUNG VÀO -->
-        <!-- ======================================================= -->
         <main class="p-4">
             @yield('content')
         </main>
@@ -176,10 +167,8 @@
     </div>
 
 
-    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Script xử lý đóng mở Sidebar (JS CỦA BẠN Ở ĐÂY) -->
     <script>
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.getElementById('sidebarToggle');
@@ -199,4 +188,5 @@
         }
     </script>
 </body>
+
 </html>

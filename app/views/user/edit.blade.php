@@ -34,13 +34,13 @@
                     <form action="/user/update/<?= $user['id'] ?>" method="POST">
                         <div class="mb-3">
                             <label class="form-label fw-bold">Họ và tên</label>
-                            <input type="text" name="name" class="form-control" required
+                            <input type="text" name="name" class="form-control"
                                 value="<?= htmlspecialchars($user['name']) ?>">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Email</label>
-                            <input type="email" name="email" class="form-control" required
+                            <input type="email" name="email" class="form-control" readonly
                                 value="<?= htmlspecialchars($user['email']) ?>">
                         </div>
 
@@ -52,10 +52,12 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
+                            <div class="col-md-6 mb-3">                                
                                 <label class="form-label fw-bold">Số điện thoại</label>
+                                {{-- nếu chưa điền thì bắt đầu điền --}}
+                                
                                 <input type="text" name="phone" class="form-control"
-                                    value="<?= htmlspecialchars($user['phone']) ?>">
+                                    value="<?= htmlspecialchars($user['phone'] ?? '') ?>">
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label fw-bold">Vai trò</label>
@@ -70,7 +72,7 @@
                         <div class="mb-3">
                             <label class="form-label fw-bold">Địa chỉ</label>
                             <input type="text" name="address" class="form-control"
-                                value="<?= htmlspecialchars($user['address']) ?>">
+                                value="<?= htmlspecialchars($user['address'] ?? '') ?>">
                         </div>
 
                         <div class="mb-4">

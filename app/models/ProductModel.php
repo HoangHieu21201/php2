@@ -3,14 +3,20 @@ class ProductModel extends Model
 {
     private $table = 'products';
 
+    // 1. Lấy danh sách (Kèm khoảng giá Min-Max từ biến thể)
     public function all()
     {
-        $sql = "SELECT p.*, c.name as category_name, b.name as brand_name 
+        // Thêm sub-query lấy min_price và max_price từ bảng product_variants
+        $sql = "SELECT p.*, 
+                       c.name as category_name, 
+                       b.name as brand_name,
+                       (SELECT MIN(price) FROM product_variants WHERE product_id = p.id AND deleted_at IS NULL) as min_price,
+                       (SELECT MAX(price) FROM product_variants WHERE product_id = p.id AND deleted_at IS NULL) as max_price
                 FROM $this->table p
                 LEFT JOIN categories c ON p.category_id = c.id
                 LEFT JOIN brands b ON p.brand_id = b.id
-                WHERE p.deleted_at IS NULL
-                ORDER BY p.created_at DESC";
+                WHERE p.deleted_at IS NULL 
+                ORDER BY p.id DESC";
 
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
@@ -18,10 +24,15 @@ class ProductModel extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // 2. Tìm chi tiết 1 sản phẩm
+    // 2. Tìm chi tiết (Cũng cần lấy range giá nếu muốn hiển thị ở trang detail)
     public function find($id)
     {
-        $sql = "SELECT * FROM $this->table WHERE id = :id AND deleted_at IS NULL";
+        $sql = "SELECT p.*,
+                       (SELECT MIN(price) FROM product_variants WHERE product_id = p.id AND deleted_at IS NULL) as min_price,
+                       (SELECT MAX(price) FROM product_variants WHERE product_id = p.id AND deleted_at IS NULL) as max_price
+                FROM $this->table p 
+                WHERE p.id = :id AND p.deleted_at IS NULL";
+
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
         $stmt->execute([':id' => $id]);
@@ -32,9 +43,9 @@ class ProductModel extends Model
     public function create($data)
     {
         $sql = "INSERT INTO $this->table 
-                (name, price, sale_price, quantity, image, description, short_description, category_id, brand_id, status) 
+                (name, price, image, description, short_description, category_id, brand_id, status) 
                 VALUES 
-                (:name, :price, :sale_price, :quantity, :image, :description, :short_description, :category_id, :brand_id, :status)";
+                (:name, :price, :image, :description, :short_description, :category_id, :brand_id, :status)";
 
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
@@ -44,12 +55,10 @@ class ProductModel extends Model
     // 4. Cập nhật
     public function update($id, $data)
     {
-        $data['id'] = $id; 
+        $data['id'] = $id;
         $sql = "UPDATE $this->table SET 
                 name = :name, 
                 price = :price, 
-                sale_price = :sale_price, 
-                quantity = :quantity, 
                 image = :image, 
                 description = :description, 
                 short_description = :short_description, 
@@ -63,6 +72,7 @@ class ProductModel extends Model
         $stmt->execute($data);
     }
 
+    // 5. Xóa mềm
     public function delete($id)
     {
         $sql = "UPDATE $this->table SET deleted_at = NOW() WHERE id = :id";

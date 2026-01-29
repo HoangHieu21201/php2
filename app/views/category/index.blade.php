@@ -91,15 +91,17 @@
                     </div>
                 </div>
             </div>
-            @if (isset($mess))
-                : ?>
-                <div class="alert alert-success d-flex align-items-center" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    <div><?= $mess ?></div>
-                </div>
-            @endif
+
+
             <!-- Table -->
             <div class="table-responsive">
+                <?php if (isset($_SESSION['success'])): ?>
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    <div><?= $_SESSION['success'] ?></div>
+                </div>
+                <?php unset($_SESSION['success']); ?>
+                <?php endif; ?>
                 <table class="table table-hover align-middle mb-0">
                     <thead>
                         <tr>

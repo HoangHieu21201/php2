@@ -13,6 +13,12 @@ use Illuminate\View\FileViewFinder;
 
 class Controller
 {
+    public function __construct()
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
     public function view(string $view, array $data = []): void
     {
         // 1. Chuẩn hoá tên view: "home/index" -> "home.index"
@@ -28,7 +34,7 @@ class Controller
         }
 
         // --- KHỞI TẠO BLADE ENGINE THỦ CÔNG ĐỂ TRÁNH LỖI REFLECTION ---
-        
+
         // Tạo các instance cơ bản
         $filesystem = new Filesystem;
         $eventDispatcher = new Dispatcher(new Container);
@@ -77,10 +83,10 @@ class Controller
     {
         $class = ucfirst($name);
         if (!class_exists($class)) {
-             $classWithNamespace = "App\\Models\\" . $class;
-             if(class_exists($classWithNamespace)) {
-                 return new $classWithNamespace();
-             }
+            $classWithNamespace = "App\\Models\\" . $class;
+            if (class_exists($classWithNamespace)) {
+                return new $classWithNamespace();
+            }
             throw new Exception("Model class not found: $name");
         }
         return new $class();

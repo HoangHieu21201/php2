@@ -1,160 +1,205 @@
-@extends('layout.adminLayout')
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký tài khoản - Hệ thống quản lý</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        .btn-brand {
+            background-color: #009981;
+            color: white;
+            font-weight: 600;
+        }
+        .btn-brand:hover {
+            background-color: #007a67;
+            color: white;
+        }
+        .form-control:focus {
+            border-color: #009981;
+            box-shadow: 0 0 0 0.25rem rgba(0, 153, 129, 0.25);
+        }
+        .text-brand {
+            color: #009981 !important;
+        }
+    </style>
+</head>
+<body>
 
-@section('content')
-    <!-- Main Content: Signup Form -->
-    <main class="container py-5 flex-grow-1">
+    <main class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
-                <div class="card shadow-sm border-0">
-                    <div class="card-header bg-white text-center py-4 border-0">
-                        <h4 class="mb-1 fw-bold">Create an Account</h4>
+                <div class="card p-4">
+                    <div class="text-center mb-4">
+                        <div class="mb-3">
+                            <i class="bi bi-person-plus-fill fs-1 text-brand"></i>
+                        </div>
+                        <h4 class="fw-bold mb-1">Tạo tài khoản mới</h4>
+                        <p class="text-muted small">Điền thông tin để đăng ký thành viên.</p>
                     </div>
 
-                    <div class="card-body p-4">
-                        <!-- Signup Form -->
-                        <form action="/auth/storeRegister" method="POST">
+                    <form action="/auth/storeRegister" method="POST">
+                        
+                        <!-- Họ và tên -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label fw-semibold small">Họ và tên</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+                                <input type="text" class="form-control border-start-0 ps-0 bg-light" id="name" name="name"
+                                    value="<?= htmlspecialchars($_SESSION['old']['name'] ?? '') ?>" 
+                                    placeholder="Nguyễn Văn A" required>
+                            </div>
+                            <?php if (isset($_SESSION['errors']['name'])): ?>
+                                <div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> <?= $_SESSION['errors']['name'] ?></div>
+                            <?php endif; ?>
+                        </div>
 
-                            <!-- Full Name -->
-                            <div class="mb-3">
-                                <label for="name" class="form-label text-muted small fw-semibold">Full Name</label>
-                                <input type="text" class="form-control" id="name" name="name"
-                                    value="{{ $_SESSION['old']['name'] ?? '' }}" placeholder="Nguyen Van A">
-                                @if (isset($_SESSION['errors']['name']))
-                                    <div class="text-danger small mt-1">
-                                        {{ $_SESSION['errors']['name'] }}
-                                    </div>
-                                @endif
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold small">Địa chỉ Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                                <input type="email" class="form-control border-start-0 ps-0 bg-light" id="email" name="email"
+                                    value="<?= htmlspecialchars($_SESSION['old']['email'] ?? '') ?>" 
+                                    placeholder="name@example.com" required>
+                            </div>
+                            <?php if (isset($_SESSION['errors']['email'])): ?>
+                                <div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> <?= $_SESSION['errors']['email'] ?></div>
+                            <?php endif; ?>
+                        </div>
+
+                        <div class="row">
+                            <!-- Số điện thoại -->
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label fw-semibold small">Số điện thoại</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-telephone text-muted"></i></span>
+                                    <input type="text" class="form-control border-start-0 ps-0 bg-light" id="phone" name="phone"
+                                        value="<?= htmlspecialchars($_SESSION['old']['phone'] ?? '') ?>" 
+                                        placeholder="0912..." required>
+                                </div>
+                                <?php if (isset($_SESSION['errors']['phone'])): ?>
+                                    <div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> <?= $_SESSION['errors']['phone'] ?></div>
+                                <?php endif; ?>
                             </div>
 
-                            <!-- Email Address -->
-                            <div class="mb-3">
-                                <label for="email" class="form-label text-muted small fw-semibold">Email
-                                    Address</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    value="{{ $_SESSION['old']['email'] ?? '' }}" placeholder="name@example.com">
-                                @if (isset($_SESSION['errors']['email']))
-                                    <div class="text-danger small mt-1">
-                                        {{ $_SESSION['errors']['email'] }}
-                                    </div>
-                                @endif
+                            <!-- Địa chỉ -->
+                            <div class="col-md-6 mb-3">
+                                <label for="address" class="form-label fw-semibold small">Địa chỉ</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-geo-alt text-muted"></i></span>
+                                    <input type="text" class="form-control border-start-0 ps-0 bg-light" id="address" name="address"
+                                        value="<?= htmlspecialchars($_SESSION['old']['address'] ?? '') ?>" 
+                                        placeholder="Số nhà, Phường/Xã...">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <!-- Mật khẩu -->
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="form-label fw-semibold small">Mật khẩu</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-key text-muted"></i></span>
+                                    <input type="password" class="form-control border-start-0 ps-0 bg-light" id="password" name="password"
+                                        placeholder="Tối thiểu 6 ký tự" required>
+                                </div>
+                                <?php if (isset($_SESSION['errors']['password'])): ?>
+                                    <div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> <?= $_SESSION['errors']['password'] ?></div>
+                                <?php endif; ?>
                             </div>
 
-                            {{-- phone --}}
-                            <div class="mb-3">
-                                <label for="phone" class="form-label text-muted small fw-semibold">Phone
-                                    Number</label>
-                                <input type="text" class="form-control" id="phone" name="phone"
-                                    value="{{ $_SESSION['old']['phone'] ?? '' }}" placeholder="0123456789">
-                                @if (isset($_SESSION['errors']['phone']))
-                                    <div class="text-danger small mt-1">
-                                        {{ $_SESSION['errors']['phone'] }}
-                                    </div>
-                                @endif
-
-                                {{-- address --}}
-                                <div class="mb-3">
-                                    <label for="address" class="form-label text-muted small fw-semibold">Address</label>
-                                    <input type="text" class="form-control" id="address" name="address"
-                                        value="{{ $_SESSION['old']['address'] ?? '' }}" placeholder="123 Street, City">
-                                    @if (isset($_SESSION['errors']['address']))
-                                        <div class="text-danger small mt-1">
-                                            {{ $_SESSION['errors']['address'] }}
-                                        </div>
-                                    @endif
+                            <!-- Nhập lại mật khẩu -->
+                            <div class="col-md-6 mb-3">
+                                <label for="confirm_password" class="form-label fw-semibold small">Xác nhận mật khẩu</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-shield-check text-muted"></i></span>
+                                    <input type="password" class="form-control border-start-0 ps-0 bg-light" id="confirm_password" name="confirm_password"
+                                        placeholder="Nhập lại mật khẩu" required>
                                 </div>
+                                <?php if (isset($_SESSION['errors']['confirm_password'])): ?>
+                                    <div class="text-danger small mt-1"><i class="bi bi-exclamation-circle"></i> <?= $_SESSION['errors']['confirm_password'] ?></div>
+                                <?php endif; ?>
+                            </div>
+                        </div>
 
-                                <!-- Password Row -->
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="password"
-                                            class="form-label text-muted small fw-semibold">Password</label>
-                                        <input type="password" class="form-control" id="password" name="password"
-                                            value="{{ $_SESSION['old']['password'] ?? '' }}" placeholder="Minimum 8 chars">
-                                        @if (isset($_SESSION['errors']['password']))
-                                            <div class="text-danger small mt-1">
-                                                {{ $_SESSION['errors']['password'] }}
-                                            </div>
-                                        @endif
-                                    </div>
-                                    <div class="col-md-6 mt-3 mt-md-0">
-                                        <label for="confirm_password"
-                                            class="form-label text-muted small fw-semibold">Confirm Password</label>
-                                        <input type="password" class="form-control" id="confirm_password"
-                                            name="confirm_password"
-                                            value="{{ $_SESSION['old']['confirm_password'] ?? '' }}"
-                                            placeholder="Retype password">
-                                        @if (isset($_SESSION['errors']['confirm_password']))
-                                            <div class="text-danger small mt-1">
-                                                {{ $_SESSION['errors']['confirm_password'] }}
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
+                        <!-- Điều khoản -->
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="terms" name="terms" required>
+                            <label class="form-check-label small text-muted" for="terms">
+                                Tôi đồng ý với <a href="#" class="text-decoration-none text-brand fw-semibold">Điều khoản dịch vụ</a> và <a href="#" class="text-decoration-none text-brand fw-semibold">Chính sách bảo mật</a>
+                            </label>
+                            <?php if (isset($_SESSION['errors']['terms'])): ?>
+                                <div class="text-danger small mt-1 d-block"><i class="bi bi-exclamation-circle"></i> <?= $_SESSION['errors']['terms'] ?></div>
+                            <?php endif; ?>
+                        </div>
 
-                                <!-- Terms Checkbox -->
-                                <div class="form-check mb-4">
-                                    <input class="form-check-input" type="checkbox" id="terms" name="terms">
-                                    <label class="form-check-label small text-muted" for="terms">
-                                        I agree to the <a href="#" class="text-decoration-none">Terms of Service</a>
-                                        and <a href="#" class="text-decoration-none">Privacy Policy</a>
-                                    </label>
-                                    @if (isset($_SESSION['errors']['terms']))
-                                        <div class="text-danger small mt-1">
-                                            {{ $_SESSION['errors']['terms'] }}
-                                        </div>
-                                    @endif
-                                </div>
+                        <!-- Nút Đăng ký -->
+                        <button type="submit" class="btn btn-brand w-100 py-2 mb-3">
+                            Đăng ký tài khoản
+                        </button>
 
-                                <!-- Submit Button -->
-                                <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold mb-3">
-                                    Create Account
-                                </button>
-                                @if (isset($_SESSION['success']))
-                                    <div class="text-danger small mt-1">
-                                        {{ $_SESSION['success'] }}
-                                    </div>
-                                @endif
-                                @if (isset($_SESSION['error']))
-                                    <div class="text-danger small mt-1">
-                                        {{ $_SESSION['error'] }}
-                                    </div>
-                                @endif
+                        <!-- Thông báo chung -->
+                        <?php if (isset($_SESSION['error'])): ?>
+                            <div class="alert alert-danger text-center py-2 small mb-3">
+                                <i class="bi bi-exclamation-circle me-1"></i> <?= $_SESSION['error'] ?>
+                                <?php unset($_SESSION['error']); ?>
+                            </div>
+                        <?php endif; ?>
 
-                                <!-- Divider -->
-                                <div class="position-relative my-4">
-                                    <hr class="text-secondary opacity-25">
-                                    <span
-                                        class="position-absolute top-50 start-50 translate-middle bg-white px-2 text-muted small text-uppercase">Or</span>
-                                </div>
+                        <div class="position-relative my-4 text-center">
+                            <hr class="text-secondary opacity-25 m-0">
+                            <span class="position-absolute top-50 start-50 translate-middle bg-white px-2 text-muted small text-uppercase" style="background-color: #fff;">Hoặc</span>
+                        </div>
 
-                                <!-- Google Signup Button -->
-                                <a href="#"
-                                    class="btn btn-outline-secondary w-100 py-2 d-flex align-items-center justify-content-center gap-2">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                                        viewBox="0 0 48 48">
-                                        <path fill="#FFC107"
-                                            d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
-                                        <path fill="#FF3D00"
-                                            d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
-                                        <path fill="#4CAF50"
-                                            d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
-                                        <path fill="#1976D2"
-                                            d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
-                                    </svg>
-                                    <span class="fw-semibold text-secondary">Sign up with Google</span>
-                                </a>
+                        <!-- Google Signup -->
+                        <a href="/auth/loginWithGoogle" class="btn btn-outline-secondary w-100 py-2 d-flex align-items-center justify-content-center gap-2 bg-white">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="18" height="18" alt="Google">
+                            <span class="fw-semibold small text-dark">Đăng ký với Google</span>
+                        </a>
+                    </form>
 
-                        </form>
-                    </div>
-
-                    <div class="card-footer bg-light text-center py-3 border-0">
-                        <p class="small mb-0 text-muted">
-                            Already have an account?
-                            <a href="/auth/login" class="text-decoration-none fw-semibold">Sign In</a>
+                    <div class="text-center mt-4 pt-3 border-top">
+                        <p class="small text-muted mb-0">
+                            Đã có tài khoản? 
+                            <a href="/auth/login" class="text-decoration-none fw-bold text-brand">Đăng nhập ngay</a>
                         </p>
                     </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <a href="/userclient" class="text-decoration-none text-muted small"><i class="bi bi-arrow-left me-1"></i> Quay về trang chủ</a>
                 </div>
             </div>
         </div>
     </main>
-@endsection
+
+    <!-- Clear Session Errors & Old Input -->
+    <?php 
+        unset($_SESSION['errors']); 
+        unset($_SESSION['old']); 
+    ?>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,88 +1,134 @@
-@extends('layout.adminLayout')
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Hệ thống quản lý</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+        .btn-brand {
+            background-color: #009981;
+            color: white;
+            font-weight: 600;
+        }
+        .btn-brand:hover {
+            background-color: #007a67;
+            color: white;
+        }
+        .form-control:focus {
+            border-color: #009981;
+            box-shadow: 0 0 0 0.25rem rgba(0, 153, 129, 0.25);
+        }
+        .text-brand {
+            color: #009981 !important;
+        }
+    </style>
+</head>
+<body>
 
-@section('content')
-    <!-- Main Content: Login Form -->
-    <main class="container py-5 flex-grow-1">
+    <main class="container">
         <div class="row justify-content-center">
-            <div class="col-12 col-md-8 col-lg-5">
-                <div class="card shadow-sm border-0">
-                    <div class="card-header bg-white text-center py-4 border-0">
-                        <h4 class="mb-1 fw-bold">Welcome Back</h4>
-                        <p class="text-muted small mb-0">Please login to your account</p>
-                    </div>
-                    @if (isset($_SESSION['success']))
-                        <div class="text-success text-center small mt-1">
-                            {{ $_SESSION['success'] }}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card p-4">
+                    <div class="text-center mb-4">
+                        <div class="mb-3">
+                            <i class="bi bi-shield-lock-fill fs-1 text-brand"></i>
                         </div>
-                    @endif
-                    <div class="card-body p-4">
-                        <!-- Login Form -->
-                        <form action="#" method="POST">
-
-                            <!-- Email Input -->
-                            <div class="mb-3">
-                                <label for="email" class="form-label text-muted small fw-semibold">Email
-                                    Address</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="name@example.com" autofocus>
-                            </div>
-
-                            <!-- Password Input -->
-                            <div class="mb-3">
-                                <label for="password" class="form-label text-muted small fw-semibold">Password</label>
-                                <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Enter your password">
-                            </div>
-
-                            <!-- Remember Me & Forgot Password -->
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                                    <label class="form-check-label small text-muted" for="remember">Remember me</label>
-                                </div>
-                                <a href="#" class="text-decoration-none small">Forgot password?</a>
-                            </div>
-
-                            <!-- Submit Button -->
-                            <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold mb-3">
-                                Sign In
-                            </button>
-
-                            <!-- Divider -->
-                            <div class="position-relative my-4">
-                                <hr class="text-secondary opacity-25">
-                                <span
-                                    class="position-absolute top-50 start-50 translate-middle bg-white px-2 text-muted small text-uppercase">Or</span>
-                            </div>
-
-                            <!-- Google Login Button -->
-                            <a href="#"
-                                class="btn btn-outline-secondary w-100 py-2 d-flex align-items-center justify-content-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
-                                    <path fill="#FFC107"
-                                        d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
-                                    <path fill="#FF3D00"
-                                        d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
-                                    <path fill="#4CAF50"
-                                        d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
-                                    <path fill="#1976D2"
-                                        d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
-                                </svg>
-                                <span class="fw-semibold text-secondary">Sign in with Google</span>
-                            </a>
-
-                        </form>
+                        <h4 class="fw-bold mb-1">Chào mừng trở lại!</h4>
+                        <p class="text-muted small">Vui lòng đăng nhập để tiếp tục.</p>
                     </div>
 
-                    <div class="card-footer bg-light text-center py-3 border-0">
-                        <p class="small mb-0 text-muted">
-                            Don't have an account?
-                            <a href="/auth/register" class="text-decoration-none fw-semibold">Create Account</a>
+                    <!-- Hiển thị thông báo lỗi/thành công -->
+                    <?php if (isset($_SESSION['success'])): ?>
+                        <div class="alert alert-success text-center py-2 small mb-3">
+                            <i class="bi bi-check-circle me-1"></i> <?= $_SESSION['success'] ?>
+                            <?php unset($_SESSION['success']); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if (isset($_SESSION['error'])): ?>
+                        <div class="alert alert-danger text-center py-2 small mb-3">
+                            <i class="bi bi-exclamation-circle me-1"></i> <?= $_SESSION['error'] ?>
+                            <?php unset($_SESSION['error']); ?>
+                        </div>
+                    <?php endif; ?>
+
+                    <form action="/auth/handleLogin" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label fw-semibold small">Địa chỉ Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                                <input type="email" class="form-control border-start-0 ps-0 bg-light" id="email" name="email"
+                                    placeholder="name@example.com" required autofocus>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="password" class="form-label fw-semibold small">Mật khẩu</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0"><i class="bi bi-key text-muted"></i></span>
+                                <input type="password" class="form-control border-start-0 ps-0 bg-light" id="password" name="password"
+                                    placeholder="Nhập mật khẩu của bạn" required>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                <label class="form-check-label small text-muted" for="remember">Ghi nhớ đăng nhập</label>
+                            </div>
+                            <a href="/auth/forgotPassword" class="text-decoration-none small text-brand fw-semibold">Quên mật khẩu?</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-brand w-100 py-2 mb-3">
+                            Đăng nhập
+                        </button>
+
+                        <div class="position-relative my-4 text-center">
+                            <hr class="text-secondary opacity-25 m-0">
+                            <span class="position-absolute top-50 start-50 translate-middle bg-white px-2 text-muted small text-uppercase" style="background-color: #fff;">Hoặc</span>
+                        </div>
+
+                        <a href="/auth/loginWithGoogle" class="btn btn-outline-secondary w-100 py-2 d-flex align-items-center justify-content-center gap-2 bg-white">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" width="18" height="18" alt="Google">
+                            <span class="fw-semibold small text-dark">Đăng nhập với Google</span>
+                        </a>
+                    </form>
+
+                    <div class="text-center mt-4 pt-3 border-top">
+                        <p class="small text-muted mb-0">
+                            Bạn chưa có tài khoản? 
+                            <a href="/auth/register" class="text-decoration-none fw-bold text-brand">Đăng ký ngay</a>
                         </p>
                     </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <a href="/userclient" class="text-decoration-none text-muted small"><i class="bi bi-arrow-left me-1"></i> Quay về trang chủ</a>
                 </div>
             </div>
         </div>
     </main>
 
-@endsection
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

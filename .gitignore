@@ -1,5 +1,6 @@
 # Composer Dependencies (Thư viện tải về, không up lên git)
 /vendor/
+/app/vendor/
 composer.lock
 
 # Environment Variables (Chứa mật khẩu, API key - Tuyệt đối không up)
@@ -15,9 +16,12 @@ composer.lock
 /public/uploads/*
 !/public/uploads/.gitkeep
 
-# Ignore app/public folder as requested
-/app/public/*
-!/app/public/.gitkeep
+# Ignore specific image folder in app/public (Đã sửa lại đúng yêu cầu)
+# Chỉ bỏ qua file trong thư mục image, giữ lại cấu trúc thư mục
+/app/public/image/*
+!/app/public/image/.gitkeep
+
+app\core\MailService.php
 
 # Storage & Cache (File tạm, logs, cache)
 /storage/*

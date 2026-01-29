@@ -21,6 +21,15 @@ class UserModel extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function findByGoogleId($googleId)
+    {
+        $sql = "SELECT * FROM $this->table WHERE google_id = :google_id";
+        $conn = $this->connect($sql);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([':google_id' => $googleId]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function find($id)
     {
         $sql = "SELECT * FROM $this->table WHERE id = :id";
@@ -32,8 +41,14 @@ class UserModel extends Model
 
     public function create($data)
     {
-        $sql = "INSERT INTO $this->table (name, email, password, phone, address, role, status) 
-                VALUES (:name, :email, :password, :phone, :address, :role, :status)";
+        if (isset($data['google_id'])) {
+            $sql = "INSERT INTO $this->table (name, email, password, role, status, google_id) 
+                    VALUES (:name, :email, :password, :role, :status, :google_id)";
+        } else {
+            $sql = "INSERT INTO $this->table (name, email, password, phone, address, role, status) 
+                    VALUES (:name, :email, :password, :phone, :address, :role, :status)";
+        }
+        
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
         return $stmt->execute($data);
@@ -51,6 +66,14 @@ class UserModel extends Model
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
         return $stmt->execute($data);
+    }
+
+    public function updateGoogleId($id, $googleId)
+    {
+        $sql = "UPDATE $this->table SET google_id = :google_id WHERE id = :id";
+        $conn = $this->connect($sql);
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute([':google_id' => $googleId, ':id' => $id]);
     }
 
     public function delete($id)

@@ -4,6 +4,12 @@ class CategoryController extends Controller
 
     public function index()
     {
+
+        if (empty($_SESSION['user_id'])) {
+            header("Location: /auth/login");
+            exit;
+        }
+
         $categoryModel = $this->model('CategoryModel');
         $data = $categoryModel->all();
         $title = "Quản lý danh mục";
@@ -30,9 +36,9 @@ class CategoryController extends Controller
             'description' => $_POST['description'],
             'status' => $_POST['status']
         ];
-
+        $mess = "Thêm danh mục thành công!";
+        $_SESSION['success'] = $mess;
         $categoryModel->create($data);
-
         header("Location: /category");
     }
 
@@ -63,6 +69,8 @@ class CategoryController extends Controller
             'status' => $_POST['status']
         ];
 
+        $mess = "Cập nhật danh mục thành công!";
+        $_SESSION['success'] = $mess;
         $categoryModel->update($id, $data);
 
         header("Location: /category");
@@ -70,9 +78,11 @@ class CategoryController extends Controller
 
     public function delete($id)
     {
+        $mess = "Xóa danh mục thành công!";
+        $_SESSION['success'] = $mess;
+
         $categoryModel = $this->model('CategoryModel');
         $categoryModel->delete($id);
-
         header("Location: /category");
     }
 }

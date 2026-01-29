@@ -3,6 +3,11 @@ class CouponController extends Controller
 {
     public function index()
     {
+        if (empty($_SESSION['user_id'])) {
+            header("Location: /auth/login");
+            exit;
+        }
+
         $couponModel = $this->model('CouponModel');
         $coupons = $couponModel->all();
         $this->view('coupon/index', ['coupons' => $coupons]);
@@ -28,7 +33,6 @@ class CouponController extends Controller
         $start_date = $_POST['start_date'] ?? '';
         $end_date = $_POST['end_date'] ?? '';
         
-        // SỬA LỖI Ở ĐÂY: Lấy đúng giá trị từ select option thay vì kiểm tra isset
         $status = (int)($_POST['status'] ?? 0);
 
         $errors = [];
@@ -98,10 +102,10 @@ class CouponController extends Controller
             'end_date' => $end_time,
             'status' => $status
         ];
-
+        $mess = "Thêm mã giảm giá thành công!";
+        $_SESSION['success'] = $mess;
         $couponModel = $this->model('CouponModel');
         $couponModel->create($data);
-
         header("Location: /coupon");
         exit;
     }
@@ -210,6 +214,8 @@ class CouponController extends Controller
             'status' => $status
         ];
 
+        $mess = "Cập nhật mã giảm giá thành công!";
+        $_SESSION['success'] = $mess;
         $couponModel->update($id, $data);
 
         header("Location: /coupon");
@@ -218,6 +224,8 @@ class CouponController extends Controller
 
     public function delete($id)
     {
+        $mess = "Xóa mã giảm giá thành công!";
+        $_SESSION['success'] = $mess;
         $couponModel = $this->model('CouponModel');
         $couponModel->delete($id);
         header("Location: /coupon");

@@ -30,7 +30,13 @@
                 <a href="/user/create" class="btn btn-brand btn-sm shadow-sm"><i class="bi bi-person-plus me-1"></i> Thêm
                     mới</a>
             </div>
-
+            <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <?php endif; ?>
+            <?php unset($_SESSION['success']); ?>
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">
                     <thead class="bg-light">

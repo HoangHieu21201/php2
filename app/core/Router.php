@@ -39,9 +39,7 @@ class Router
     public function notFound($message): void
     {
         http_response_code(404);
-        /**
-         * sau nay co the load theo view errors
-         */
+        
         echo "<h1 style='color: red'> 404 Not Found - ' . $message. </h1>";
     }
 }

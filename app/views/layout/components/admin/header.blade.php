@@ -14,14 +14,28 @@
         <div class="dropdown">
             <button class="btn btn-outline-success btn-sm dropdown-toggle d-flex align-items-center gap-2"
                 type="button" data-bs-toggle="dropdown">
-                <i class="bi bi-person-circle"></i> Admin
+                <i class="bi bi-person-circle"></i> 
+                @if(isset($_SESSION['user_name']))
+                    {{ $_SESSION['user_name'] }}
+                @elseif(isset($_SESSION['user_id']))
+                    User
+                @else
+                    Guest
+                @endif
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="/profile">Hồ sơ</a></li>
-                <li><a class="dropdown-item" href="/settings">Cài đặt</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="/auth">Login / Logout</a></li>
+                @if(isset($_SESSION['user_id']))
+                    <li><a class="dropdown-item" href="/profile">Hồ sơ</a></li>
+                    <li><a class="dropdown-item" href="/settings">Cài đặt</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item text-danger" href="/auth/logout">Đăng xuất</a></li>
+                @else
+                    <li><a class="dropdown-item" href="/auth/login">Đăng nhập </a></li>
+                    <li><a class="dropdown-item" href="/auth/register">Đăng ký</a></li>
+                @endif
             </ul>
         </div>
     </div>
+    <?php
+    ?>
 </header>

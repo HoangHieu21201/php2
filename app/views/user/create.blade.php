@@ -35,18 +35,17 @@
                     <form action="/user/store" method="POST">
                         <div class="mb-3">
                             <label class="form-label fw-bold">Họ và tên <span class="text-danger">*</span></label>
-                            <input type="text" name="name" class="form-control" required placeholder="Nguyễn Văn A">
+                            <input type="text" name="name" class="form-control" placeholder="Nguyễn Văn A">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Email (Tài khoản) <span class="text-danger">*</span></label>
-                            <input type="email" name="email" class="form-control" required
-                                placeholder="example@mail.com">
+                            <input type="email" name="email" class="form-control" placeholder="example@mail.com">
                         </div>
 
                         <div class="mb-3">
                             <label class="form-label fw-bold">Mật khẩu <span class="text-danger">*</span></label>
-                            <input type="password" name="password" class="form-control" required placeholder="******">
+                            <input type="password" name="password" class="form-control" placeholder="******">
                         </div>
 
                         <div class="row">

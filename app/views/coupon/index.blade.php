@@ -41,12 +41,13 @@
                 </a>
             </div>
 
-            <?php if (isset($mess)): ?>
-            <div class="alert alert-success d-flex align-items-center mb-4" role="alert">
-                <i class="bi bi-check-circle-fill me-2"></i>
-                <div><?= $mess ?></div>
+            <?php if (isset($_SESSION['success'])): ?>
+            <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
+                <?= htmlspecialchars($_SESSION['success']) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <?php endif; ?>
+            <?php unset($_SESSION['success']); ?>
 
             <div class="table-responsive">
                 <table class="table table-hover align-middle mb-0">

@@ -59,7 +59,7 @@
                             <label class="form-label fw-bold">Logo hiện tại</label>
                             <div class="mb-2">
                                 <?php if(!empty($brand['image'])): ?>
-                                <img src="/uploads/<?= $brand['image'] ?>" class="img-thumbnail" style="height: 60px;">
+                                <img src="/<?= $brand['image'] ?>" class="img-thumbnail" style="height: 180px;">
                                 <?php else: ?>
                                 <span class="text-muted small fst-italic">Chưa có logo</span>
                                 <?php endif; ?>
