@@ -145,15 +145,13 @@
                                     <div class="form-text small mb-2">Định dạng: jpg, png, webp.</div>
                                     
                                     <div class="text-center">
-                                        <!-- Ảnh hiện tại -->
                                         <?php if(!empty($product['image'])): ?>
                                             <div id="currentImageContainer">
                                                 <small class="d-block text-muted mb-1">Hiện tại</small>
-                                                <img src="/<?= $product['image'] ?>" class="current-img" onerror="this.src='https://placehold.co/300x300?text=No+Img'">
+                                                <img src="/<?= $product['image'] ?>" class="current-img" onerror="this.src='#'">
                                             </div>
                                         <?php endif; ?>
                                         
-                                        <!-- Ảnh xem trước -->
                                         <div id="previewContainer" style="display: none;">
                                             <small class="d-block text-muted mb-1">Mới chọn</small>
                                             <img id="imagePreview" src="#" alt="Ảnh xem trước" class="preview-img">
