@@ -41,7 +41,7 @@ class CategoryModel extends Model {
     }
 
     public function delete($id) {
-        $sql = "DELETE FROM $this->table WHERE id = :id";
+        $sql = "UPDATE $this->table SET deleted_at = NOW() WHERE id = :id";
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
         $stmt->execute([':id' => $id]);

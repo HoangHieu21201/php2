@@ -35,11 +35,12 @@
                     <a href="/brand" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i> Quay
                         lại</a>
                 </div>
-                <?php if (isset($mess)): ?>
-                <div class="alert alert-success d-flex align-items-center" role="alert">
-                    <i class="bi bi-check-circle-fill me-2"></i>
-                    <div><?= $mess ?></div>
+                <?php if (isset($_SESSION['error'])): ?>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <?= htmlspecialchars($_SESSION['error']) ?>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
+                <?php unset($_SESSION['error']); ?>
                 <?php endif; ?>
                 <form action="/brand/update/<?= $brand['id'] ?>" method="POST" enctype="multipart/form-data">
                     <div class="card p-4">

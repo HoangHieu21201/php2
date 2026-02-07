@@ -158,7 +158,7 @@
 
         @include('layout.components.admin.header')
 
-        <main class="p-4">
+        <main>
             @yield('content')
         </main>
 

@@ -1,9 +1,13 @@
 <?php 
 class UserClientController extends Controller {
     public function index() {
-        $product = $this->model('ProductModel');
-        $data = $product->all();
+        $productModel = $this->model('ProductModel');
+        $products = $productModel->getAllWithPriceRange();
         $title = "Trang chủ";
-        $this->view('pages/index', ['title' => $title, 'products' => $data]);
+        
+        $this->view('pages/index', [
+            'title' => $title, 
+            'products' => $products
+        ]);
     }
 }

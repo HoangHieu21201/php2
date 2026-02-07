@@ -1,9 +1,8 @@
 <?php
 class UserCartController extends Controller
 {
-    public function index()
+     public function index()
     {
-        
         if (empty($_SESSION['user_id'])) {
             header("Location: /auth/login");
             exit;
@@ -12,54 +11,55 @@ class UserCartController extends Controller
         $userId = $_SESSION['user_id'];
         $cartModel = $this->model('CartModel');
         $couponModel = $this->model('CouponModel');
-
+        
         $_SESSION['cart_count'] = $cartModel->countCart($userId);
-
-        $cartItems = $cartModel->getCartByUserId($userId);
-
+        
+        $rawCartItems = $cartModel->getCartByUserId($userId);
+        
+        $cartItems = [];
         $subtotal = 0;
-        foreach ($cartItems as $item) {
-            $price = $item['variant_sale_price'] > 0 ? $item['variant_sale_price'] : ($item['variant_price'] > 0 ? $item['variant_price'] : $item['product_price']);
+
+        foreach ($rawCartItems as $item) {
+            $price = $item['variant_sale_price'] > 0 ? $item['variant_sale_price'] : $item['variant_price'];
+            $item['final_price'] = $price;
             $subtotal += $price * $item['quantity'];
+
+            $item['attributes'] = [];
+            if (!empty($item['attribute_raw'])) {
+                $item['attributes'] = explode('|||', $item['attribute_raw']);
+            }
+            
+            $cartItems[] = $item;
         }
 
         $allCoupons = $couponModel->all();
         $availableCoupons = [];
         $now = date('Y-m-d H:i:s');
-
         foreach ($allCoupons as $c) {
-            if (
-                $c['status'] == 1 &&
-                ($c['start_date'] == null || $c['start_date'] <= $now) &&
+            if ($c['status'] == 1 && 
+                ($c['start_date'] == null || $c['start_date'] <= $now) && 
                 ($c['end_date'] == null || $c['end_date'] >= $now)
             ) {
                 $availableCoupons[] = $c;
             }
         }
 
-        // 4. Xử lý Mã giảm giá đang áp dụng
         $discount = 0;
         $couponCode = '';
-
         if (isset($_SESSION['applied_coupon'])) {
             $coupon = $_SESSION['applied_coupon'];
             $couponCode = $coupon['code'];
-
-            // Kiểm tra lại điều kiện đơn hàng tối thiểu
             if ($subtotal >= $coupon['min_order_value']) {
                 if ($coupon['type'] == 'percent') {
                     $discount = $subtotal * ($coupon['value'] / 100);
                 } else {
-                    $discount = $coupon['value']; // Giảm cố định
+                    $discount = $coupon['value'];
                 }
-
-                if ($discount > $subtotal) {
-                    $discount = $subtotal;
-                }
+                if ($discount > $subtotal) $discount = $subtotal;
             } else {
                 unset($_SESSION['applied_coupon']);
                 $couponCode = '';
-                $_SESSION['error'] = "Mã giảm giá đã tự động hủy do giá trị đơn hàng thay đổi.";
+                $_SESSION['error'] = "Mã giảm giá đã tự hủy do đơn hàng không đủ điều kiện.";
             }
         }
 
@@ -170,7 +170,6 @@ class UserCartController extends Controller
             header("Location: /auth/login");
             exit;
         }
-        
 
         $userId = $_SESSION['user_id'];
         $variantId = $_POST['variant_id'] ?? null;
@@ -213,7 +212,7 @@ class UserCartController extends Controller
         if ($cartId && $quantity > 0) {
             $cartModel->updateQuantity($cartId, $quantity);
         }
-
+        
         $_SESSION['cart_count'] = $cartModel->countCart($userId);
         header("Location: /usercart");
     }
@@ -228,7 +227,7 @@ class UserCartController extends Controller
         $userId = $_SESSION['user_id'];
         $cartModel = $this->model('CartModel');
         $cartModel->remove($id, $userId);
-
+        
         $_SESSION['cart_count'] = $cartModel->countCart($userId);
         header("Location: /usercart");
     }

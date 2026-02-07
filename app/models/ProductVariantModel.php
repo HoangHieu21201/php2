@@ -5,24 +5,23 @@ class ProductVariantModel extends Model
 
     public function all()
     {
-        $sql = "SELECT pv.*, 
-                       p.name as product_name, 
-                       c.name as color_name, 
-                       s.name as size_name 
+        $sql = "SELECT pv.*, p.name as product_name,
+                GROUP_CONCAT(CONCAT(a.name, ': ', av.value) SEPARATOR ', ') as attributes_string
                 FROM $this->table pv
-                LEFT JOIN products p ON pv.product_id = p.id
-                LEFT JOIN colors c ON pv.color_id = c.id
-                LEFT JOIN sizes s ON pv.size_id = s.id
-                WHERE pv.deleted_at IS NULL 
+                JOIN products p ON pv.product_id = p.id
+                LEFT JOIN variant_attribute_values vav ON pv.id = vav.product_variant_id
+                LEFT JOIN attribute_values av ON vav.attribute_value_id = av.id
+                LEFT JOIN attributes a ON av.attribute_id = a.id
+                WHERE pv.deleted_at IS NULL
+                GROUP BY pv.id
                 ORDER BY pv.id DESC";
-
+        
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // 2. Tìm chi tiết 1 biến thể
     public function find($id)
     {
         $sql = "SELECT * FROM $this->table WHERE id = :id AND deleted_at IS NULL";
@@ -32,46 +31,60 @@ class ProductVariantModel extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // 3. Thêm mới biến thể
     public function create($data)
     {
         $sql = "INSERT INTO $this->table 
-                (product_id, color_id, size_id, sku, quantity, price, sale_price, image, status) 
+                (product_id, sku, price, sale_price, quantity, image, description, status) 
                 VALUES 
-                (:product_id, :color_id, :size_id, :sku, :quantity, :price, :sale_price, :image, :status)";
-
+                (:product_id, :sku, :price, :sale_price, :quantity, :image, :description, :status)";
+        
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
         $stmt->execute($data);
+        return $conn->lastInsertId();
     }
 
-    // 4. Cập nhật biến thể
     public function update($id, $data)
     {
-        $data['id'] = $id; 
+        $data['id'] = $id;
         $sql = "UPDATE $this->table SET 
-                product_id = :product_id,
-                color_id = :color_id,
-                size_id = :size_id,
-                sku = :sku,
-                quantity = :quantity,
-                price = :price,
-                sale_price = :sale_price,
-                image = :image,
-                status = :status
+                product_id = :product_id, 
+                sku = :sku, 
+                price = :price, 
+                sale_price = :sale_price, 
+                quantity = :quantity, 
+                image = :image, 
+                description = :description, 
+                status = :status 
                 WHERE id = :id";
-
+        
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
-        $stmt->execute($data);
+        return $stmt->execute($data);
     }
 
-    // 5. Xóa mềm
     public function delete($id)
     {
         $sql = "UPDATE $this->table SET deleted_at = NOW() WHERE id = :id";
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
-        $stmt->execute([':id' => $id]);
+        return $stmt->execute([':id' => $id]);
+    }
+    
+    public function getByProductId($productId)
+    {
+        $sql = "SELECT pv.*,
+                GROUP_CONCAT(CONCAT(a.name, ': ', av.value) SEPARATOR ', ') as attributes_string
+                FROM $this->table pv
+                LEFT JOIN variant_attribute_values vav ON pv.id = vav.product_variant_id
+                LEFT JOIN attribute_values av ON vav.attribute_value_id = av.id
+                LEFT JOIN attributes a ON av.attribute_id = a.id
+                WHERE pv.product_id = :product_id AND pv.deleted_at IS NULL
+                GROUP BY pv.id";
+        
+        $conn = $this->connect($sql);
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([':product_id' => $productId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
