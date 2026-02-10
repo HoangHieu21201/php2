@@ -2,7 +2,6 @@
 
 @section('content')
 
-    <!-- Banner / Slider -->
     <div id="heroCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
@@ -34,7 +33,6 @@
         </button>
     </div>
 
-    <!-- Product List Section -->
     <div class="container pb-5" id="shop-now">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="fw-bold text-dark border-start border-4 border-success ps-3 m-0">Sản phẩm nổi bật</h3>

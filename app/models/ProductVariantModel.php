@@ -70,6 +70,18 @@ class ProductVariantModel extends Model
         $stmt = $conn->prepare($sql);
         return $stmt->execute([':id' => $id]);
     }
+    public function decreaseStock($id, $quantity)
+    {
+        $sql = "UPDATE $this->table 
+                SET quantity = quantity - :quantity 
+                WHERE id = :id AND quantity >= :quantity";
+        
+        $conn = $this->connect($sql);
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->execute([':quantity' => $quantity, ':id' => $id]);
+        
+        return $stmt->rowCount() > 0;
+    }
     
     public function getByProductId($productId)
     {

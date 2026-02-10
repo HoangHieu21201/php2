@@ -28,7 +28,24 @@ class CartModel extends Model
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);
         $stmt->execute([':user_id' => $userId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($items as &$item) {
+            if ($item['variant_sale_price'] > 0 && $item['variant_sale_price'] < $item['variant_price']) {
+                $item['final_price'] = $item['variant_sale_price'];
+            } else {
+                $item['final_price'] = $item['variant_price'];
+            }
+
+            $attrString = '';
+            if (!empty($item['attribute_raw'])) {
+                $attrs = explode('|||', $item['attribute_raw']);
+                $attrString = implode(', ', $attrs);
+            }
+            $item['attribute_values'] = $attrString;
+        }
+
+        return $items;
     }
 
     public function findCartItem($userId, $variantId)
@@ -72,5 +89,13 @@ class CartModel extends Model
         $stmt->execute([':user_id' => $userId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'] ?? 0;
+    }
+
+    public function clearCart($userId)
+    {
+        $sql = "DELETE FROM $this->table WHERE user_id = :user_id";
+        $conn = $this->connect($sql);
+        $stmt = $conn->prepare($sql);
+        return $stmt->execute([':user_id' => $userId]);
     }
 }

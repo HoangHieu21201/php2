@@ -21,7 +21,6 @@ class BrandModel extends Model
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Hàm quan trọng để validate trùng tên
     public function findByName($name)
     {
         $sql = "SELECT * FROM $this->table WHERE name = :name AND deleted_at IS NULL";

@@ -25,7 +25,7 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
                 @if(isset($_SESSION['user_id']))
-                    <li><a class="dropdown-item" href="/profile">Hồ sơ</a></li>
+                    <li><a class="dropdown-item" href="/userprofile">Hồ sơ</a></li>
                     <li><a class="dropdown-item" href="/settings">Cài đặt</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item text-danger" href="/auth/logout">Đăng xuất</a></li>

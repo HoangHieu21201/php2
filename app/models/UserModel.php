@@ -45,8 +45,8 @@ class UserModel extends Model
             $sql = "INSERT INTO $this->table (name, email, password, role, status, google_id) 
                     VALUES (:name, :email, :password, :role, :status, :google_id)";
         } else {
-            $sql = "INSERT INTO $this->table (name, email, password, phone, address, role, status) 
-                    VALUES (:name, :email, :password, :phone, :address, :role, :status)";
+            $sql = "INSERT INTO $this->table (name, email, password, phone, role, status) 
+                    VALUES (:name, :email, :password, :phone, :role, :status)";
         }
         
         $conn = $this->connect($sql);
@@ -59,9 +59,9 @@ class UserModel extends Model
         $data['id'] = $id;
         if (empty($data['password'])) {
             unset($data['password']);
-            $sql = "UPDATE $this->table SET name=:name, email=:email, phone=:phone, address=:address, role=:role, status=:status WHERE id=:id";
+            $sql = "UPDATE $this->table SET name=:name, email=:email, phone=:phone, role=:role, status=:status WHERE id=:id";
         } else {
-            $sql = "UPDATE $this->table SET name=:name, email=:email, password=:password, phone=:phone, address=:address, role=:role, status=:status WHERE id=:id";
+            $sql = "UPDATE $this->table SET name=:name, email=:email, password=:password, phone=:phone, role=:role, status=:status WHERE id=:id";
         }
         $conn = $this->connect($sql);
         $stmt = $conn->prepare($sql);

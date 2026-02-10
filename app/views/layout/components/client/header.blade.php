@@ -68,7 +68,7 @@
                         <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
                             <?php if(isset($_SESSION['user_id'])): ?>
                                 <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i>Hồ sơ</a></li>
-                                <li><a class="dropdown-item" href="/orders"><i class="bi bi-receipt me-2"></i>Đơn hàng</a></li>
+                                <li><a class="dropdown-item" href="/userorder"><i class="bi bi-receipt me-2"></i>Đơn hàng</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item text-danger" href="/auth/logout"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
                             <?php else: ?>
