@@ -18,13 +18,12 @@ class ProfileController extends Controller
             exit;
         }
 
-        // Lấy danh sách toàn bộ địa chỉ của user
         $addressModel = $this->model('UserAddressModel');
         $addresses = $addressModel->getByUserId($userId);
 
         $this->view('pages/profile', [
             'user' => $user,
-            'addresses' => $addresses, // Truyền danh sách địa chỉ sang view
+            'addresses' => $addresses, 
             'title' => 'Hồ sơ cá nhân'
         ]);
     }

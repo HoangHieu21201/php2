@@ -7,7 +7,6 @@ class AdminContactController extends Controller
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
 
-            // Demo login - Thay thế bằng logic check DB users của bạn
             if ($email === 'admin@gmail.com' && $password === '123456') {
                 $_SESSION['admin_id'] = 1;
                 $_SESSION['admin_name'] = 'Administrator';

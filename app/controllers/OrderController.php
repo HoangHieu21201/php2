@@ -26,7 +26,6 @@ class OrderController extends Controller
             if ($st == 'completed') $stats['revenue'] += $order['total_amount'];
         }
 
-        // 2. Lọc danh sách theo Status
         $currentStatus = $_GET['status'] ?? 'all';
         $filteredOrders = [];
 
@@ -38,13 +37,11 @@ class OrderController extends Controller
             });
         }
 
-        // 3. Phân trang (Pagination)
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $limit = 10; // Số đơn hàng mỗi trang
+        $limit = 10;
         $totalItems = count($filteredOrders);
         $totalPages = ceil($totalItems / $limit);
         
-        // Đảm bảo page hợp lệ
         if ($page < 1) $page = 1;
         if ($page > $totalPages && $totalPages > 0) $page = $totalPages;
 
@@ -52,7 +49,7 @@ class OrderController extends Controller
         $pagedOrders = array_slice($filteredOrders, $offset, $limit);
 
         $this->view('order/index', [
-            'orders' => $pagedOrders, // Chỉ truyền dữ liệu của trang hiện tại
+            'orders' => $pagedOrders, 
             'stats' => $stats,
             'currentStatus' => $currentStatus,
             'currentPage' => $page,

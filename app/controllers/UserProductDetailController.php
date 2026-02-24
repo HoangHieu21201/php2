@@ -32,6 +32,27 @@ class UserProductDetailController extends Controller
             exit;
         }
 
+        // --- Logic lấy sản phẩm liên quan ---
+        $relatedProducts = [];
+        // Lấy tất cả sản phẩm (Sử dụng getAllWithPriceRange để có sẵn min_price/max_price nếu có)
+        if (method_exists($productModel, 'getAllWithPriceRange')) {
+            $allProducts = $productModel->getAllWithPriceRange();
+        } else {
+            $allProducts = $productModel->all();
+        }
+
+        // Lọc sản phẩm cùng Category và khác ID hiện tại
+        // (Lưu ý: Cách này lọc bằng PHP, nếu dữ liệu lớn nên viết query SQL riêng trong Model)
+        $categoryId = $product['category_id'];
+        $count = 0;
+        foreach ($allProducts as $p) {
+            if ($p['id'] != $id && $p['category_id'] == $categoryId) {
+                $relatedProducts[] = $p;
+                $count++;
+            }
+            if ($count >= 4) break; // Chỉ lấy tối đa 4 sản phẩm
+        }
+
         $variantModel = $this->model('ProductVariantModel');
 
         if (method_exists($variantModel, 'getFilteredVariants')) {
@@ -61,16 +82,15 @@ class UserProductDetailController extends Controller
             $maxPrice = max($prices);
         }
 
-        // Gán giá trị vào mảng product để View sử dụng, tránh lỗi Undefined index
+        // Gán giá trị vào mảng product để View sử dụng
         $product['min_price'] = $minPrice;
         $product['max_price'] = $maxPrice;
-        
-        // Gán giá mặc định (0) nếu không có biến thể để View không lỗi khi gọi $product['price'] cũ
         $product['price'] = 0; 
 
         $this->view('pages/detail', [
             'product'  => $product,
             'variants' => $variants,
+            'relatedProducts' => $relatedProducts, // Truyền biến này sang View
             'title'    => $product['name'] . ' - Chi tiết sản phẩm'
         ]);
     }

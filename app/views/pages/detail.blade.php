@@ -82,8 +82,8 @@
                                             data-price="{{ $v['sale_price'] > 0 ? $v['sale_price'] : $v['price'] }}"
                                             data-stock="{{ $v['quantity'] }}"
                                             data-image="{{ !empty($v['image']) ? '/' . $v['image'] : '' }}">
-                                        {{ $v['attributes_string'] ?? (($v['color_name'] ?? '') . ' - ' . ($v['size_name'] ?? '')) }} 
-                                        ({{ number_format($v['sale_price'] > 0 ? $v['sale_price'] : $v['price'], 0, ',','.') }}đ)
+                                            {{ $v['attributes_string'] ?? (($v['color_name'] ?? '') . ' - ' . ($v['size_name'] ?? '')) }} 
+                                            ({{ number_format($v['sale_price'] > 0 ? $v['sale_price'] : $v['price'], 0, ',','.') }}đ)
                                     </option>
                                 @endforeach
                             @endif
@@ -132,6 +132,59 @@
                 </div>
             </div>
         </div>
+        
+        <!-- SẢN PHẨM LIÊN QUAN -->
+        @if(!empty($relatedProducts) && count($relatedProducts) > 0)
+        <div class="mt-5">
+            <h3 class="fw-bold mb-4 border-start border-4 border-success ps-3">Sản phẩm liên quan</h3>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4">
+                @foreach($relatedProducts as $rp)
+                    @php
+                        // Xử lý hiển thị giá cho sản phẩm liên quan
+                        $rMin = $rp['min_price'] ?? $rp['price'] ?? 0;
+                        $rMax = $rp['max_price'] ?? $rp['price'] ?? 0;
+                        $rDisplayPrice = 'Liên hệ';
+                        if($rMin > 0) {
+                            if($rMin < $rMax) {
+                                $rDisplayPrice = number_format($rMin, 0, ',', '.') . 'đ - ' . number_format($rMax, 0, ',', '.') . 'đ';
+                            } else {
+                                $rDisplayPrice = number_format($rMin, 0, ',', '.') . 'đ';
+                            }
+                        }
+                    @endphp
+                    <div class="col">
+                        <div class="card h-100 border-0 shadow-sm product-card">
+                            <div class="position-relative overflow-hidden">
+                                <a href="/userproductdetail/detail/{{ $rp['id'] }}">
+                                    <img src="{{ !empty($rp['image']) ? '/' . $rp['image'] : 'https://placehold.co/300x300' }}" 
+                                         class="card-img-top object-fit-cover" height="250" alt="{{ $rp['name'] }}">
+                                </a>
+                                @if(isset($rp['is_new']) && $rp['is_new'])
+                                    <span class="position-absolute top-0 start-0 m-2 badge bg-success">Mới</span>
+                                @endif
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-1">
+                                    <small class="text-muted text-uppercase" style="font-size: 0.75rem;">
+                                        {{ $rp['category_name'] ?? 'Sản phẩm' }}
+                                    </small>
+                                </div>
+                                <h6 class="card-title fw-bold text-truncate">
+                                    <a href="/userproductdetail/detail/{{ $rp['id'] }}" class="text-decoration-none text-dark">
+                                        {{ $rp['name'] }}
+                                    </a>
+                                </h6>
+                                <div class="mt-2 text-brand fw-bold">
+                                    {{ $rDisplayPrice }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        @endif
+
     </div>
 
 @endsection

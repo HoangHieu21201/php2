@@ -35,12 +35,12 @@
                 <!-- Icons & User Actions -->
                 <div class="d-flex align-items-center gap-3">
                     <!-- Search Icon -->
-                    <div class="input-group d-none d-lg-flex" style="width: 250px;">
+                    {{-- <div class="input-group d-none d-lg-flex" style="width: 250px;">
                         <input type="text" class="form-control border-end-0 rounded-start-pill bg-light" placeholder="Tìm kiếm...">
                         <button class="btn border border-start-0 rounded-end-pill bg-light text-muted" type="button">
                             <i class="bi bi-search"></i>
                         </button>
-                    </div>
+                    </div> --}}
 
                     <!-- Cart -->
                     <!-- SỬA LINK: Trỏ về UserCartController (index) -->

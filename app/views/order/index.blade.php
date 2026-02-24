@@ -138,13 +138,13 @@
     </style>
 
     <div class="container-fluid">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
             <h1 class="h3 mb-0 text-brand font-weight-bold">Quản lý Đơn hàng</h1>
-            <ol class="breadcrumb m-0 bg-transparent p-0">
+            {{-- <ol class="breadcrumb m-0 bg-transparent p-0">
                 <li class="breadcrumb-item"><a href="/admin" class="text-decoration-none" style="color: #009981;">Dashboard</a>
                 </li>
                 <li class="breadcrumb-item active">Đơn hàng</li>
-            </ol>
+            </ol> --}}
         </div>
 
         <!-- TABS NAVIGATOR -->

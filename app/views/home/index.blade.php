@@ -23,7 +23,6 @@
             overflow-x: hidden;
         }
 
-        /* --- 1. SIDEBAR STYLES --- */
         .sidebar {
             position: fixed;
             top: 0;
@@ -90,7 +89,6 @@
             margin-right: 10px;
         }
 
-        /* --- 2. MAIN CONTENT WRAPPER --- */
         .main-wrapper {
             margin-left: var(--sidebar-width);
             transition: all 0.3s ease;
@@ -99,7 +97,6 @@
             flex-direction: column;
         }
 
-        /* --- 3. TOP HEADER STYLES --- */
         .top-header {
             height: var(--header-height);
             background: #fff;
@@ -113,7 +110,6 @@
             z-index: 999;
         }
 
-        /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 991.98px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -147,23 +143,18 @@
 
 <body>
 
-    <!-- Overlay cho Mobile -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- 1. GỌI SIDEBAR VÀO ĐÂY -->
     @include('layout.components.admin.sidebar')
 
 
-    <!-- Wrapper chứa Header và Nội dung chính -->
     <div class="main-wrapper">
-
-        <!-- 2. GỌI HEADER VÀO ĐÂY -->
         @include('layout.components.admin.header')
-        <!-- 3. NƠI CÁC TRANG CON ĐỔ NỘI DUNG VÀO -->
+
         <main class="p-4">
             @yield('content')
         </main>
-
+        @include('home.stats')
     </div>
 
 
