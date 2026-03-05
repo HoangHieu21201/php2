@@ -144,7 +144,7 @@
                 <h4 class="fw-bold text-brand m-0">Quản lý Biến thể Sản phẩm</h4>
                 <div class="text-muted small mt-1">Sản phẩm: <strong class="text-dark">{{ $product['name'] }}</strong></div>
             </div>
-            <a href="/productvariant" class="btn btn-outline-secondary btn-sm shadow-sm px-3 fw-bold">
+            <a href="/productVariant" class="btn btn-outline-secondary btn-sm shadow-sm px-3 fw-bold">
                 <i class="bi bi-arrow-left me-1"></i> Danh sách
             </a>
         </div>
@@ -160,7 +160,7 @@
             unset($_SESSION['error']);
         @endphp
 
-        <form action="/productvariant/store" method="POST" enctype="multipart/form-data" id="variantForm">
+        <form action="/productVariant/store" method="POST" enctype="multipart/form-data" id="variantForm">
             <input type="hidden" name="product_id" value="{{ $product['id'] }}">
 
             <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
@@ -230,7 +230,7 @@
                     </button>
 
                     <div class="d-flex gap-2">
-                        <a href="/productvariant" class="btn btn-light border px-4 fw-bold text-secondary">Hủy bỏ</a>
+                        <a href="/productVariant" class="btn btn-light border px-4 fw-bold text-secondary">Hủy bỏ</a>
                         <button type="button" onclick="validateAndSubmit()" class="btn btn-brand fw-bold px-5 shadow-sm">
                             <i class="bi bi-save me-2"></i> LƯU THAY ĐỔI
                         </button>
@@ -412,7 +412,7 @@
                     </div>
                 </td>
                 <td class="text-center">
-                    ${id ? `<a href="/productvariant/delete/${id}" class="btn btn-sm text-danger border-0" onclick="return confirm('Xóa vĩnh viễn biến thể này?')" title="Xóa"><i class="bi bi-trash-fill fs-5"></i></a>` 
+                    ${id ? `<a href="/productVariant/delete/${id}" class="btn btn-sm text-danger border-0" onclick="return confirm('Xóa vĩnh viễn biến thể này?')" title="Xóa"><i class="bi bi-trash-fill fs-5"></i></a>` 
                          : `<button type="button" class="btn btn-sm text-secondary border-0" onclick="removeRow(this)"><i class="bi bi-x-lg fs-5"></i></button>`}
                 </td>
             `;

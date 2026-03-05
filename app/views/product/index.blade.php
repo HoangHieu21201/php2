@@ -186,7 +186,7 @@
 
                                     <td class="text-center pe-4">
                                         <div class="btn-group btn-group-sm">
-                                            <a href="/productvariant/create?product_id={{ $p['id'] }}"
+                                            <a href="/productVariant/create?product_id={{ $p['id'] }}"
                                                 class="btn btn-outline-info" title="Quản lý biến thể">
                                                 <i class="bi bi-layers"></i>
                                             </a>

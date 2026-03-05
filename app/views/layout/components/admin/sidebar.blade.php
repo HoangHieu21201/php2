@@ -49,7 +49,7 @@
             $currentUri = $_SERVER['REQUEST_URI'];
             $isProductGroup =
                 strpos($currentUri, '/product') !== false ||
-                strpos($currentUri, '/productvariant') !== false ||
+                strpos($currentUri, '/productVariant') !== false ||
                 strpos($currentUri, '/color') !== false ||
                 strpos($currentUri, '/size') !== false;
         @endphp
@@ -86,8 +86,8 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="/productvariant"
-                                    class="nav-link sub-link ps-5 py-2 {{ strpos($currentUri, '/productvariant') !== false ? 'active-sub' : '' }}">
+                                <a href="/productVariant"
+                                    class="nav-link sub-link ps-5 py-2 {{ strpos($currentUri, '/productVariant') !== false ? 'active-sub' : '' }}">
                                     <i class="bi bi-dot me-1"></i> Tạo biến thể
                                 </a>
                             </li>

@@ -1,5 +1,5 @@
 <?php
-class ProductVariantController extends Controller
+class productVariantController extends Controller
 {
     public function index()
     {
@@ -9,7 +9,7 @@ class ProductVariantController extends Controller
         }
 
         $productModel = $this->model('ProductModel');
-        $variantModel = $this->model('ProductVariantModel'); 
+        $variantModel = $this->model('productVariantModel'); 
         
         $products = $productModel->all();
         $keyword = $_GET['keyword'] ?? '';
@@ -53,7 +53,7 @@ class ProductVariantController extends Controller
         $productId = $_GET['product_id'] ?? null;
         if (!$productId) {
             $_SESSION['error'] = "Vui lòng chọn sản phẩm cần cấu hình!";
-            header("Location: /productvariant");
+            header("Location: /productVariant");
             exit;
         }
 
@@ -62,7 +62,7 @@ class ProductVariantController extends Controller
 
         if (!$product) {
             $_SESSION['error'] = "Sản phẩm không tồn tại.";
-            header("Location: /productvariant");
+            header("Location: /productVariant");
             exit;
         }
 
@@ -80,7 +80,7 @@ class ProductVariantController extends Controller
             $variantsData = $_SESSION['old_variants'];
             unset($_SESSION['old_variants']);
         } else {
-            $variantModel = $this->model('ProductVariantModel');
+            $variantModel = $this->model('productVariantModel');
             $variantAttrModel = $this->model('VariantAttributeValueModel');
             
             if (method_exists($variantModel, 'getByProductId')) {
@@ -117,7 +117,7 @@ class ProductVariantController extends Controller
     public function store()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header("Location: /productvariant");
+            header("Location: /productVariant");
             exit;
         }
 
@@ -126,7 +126,7 @@ class ProductVariantController extends Controller
 
         if (empty($productId)) {
             $_SESSION['error'] = "Dữ liệu không hợp lệ!";
-            header("Location: /productvariant");
+            header("Location: /productVariant");
             exit;
         }
 
@@ -134,7 +134,7 @@ class ProductVariantController extends Controller
         $productInfo = $productModel->find($productId);
         $productSlug = $this->createSlug($productInfo['name'] ?? 'product');
 
-        $variantModel = $this->model('ProductVariantModel');
+        $variantModel = $this->model('productVariantModel');
         $variantAttrModel = $this->model('VariantAttributeValueModel');
 
         $dbVariants = $variantModel->getByProductId($productId);
@@ -188,7 +188,7 @@ class ProductVariantController extends Controller
         if ($hasError) {
             $_SESSION['error'] = implode("<br>", $errors);
             $_SESSION['old_variants'] = $variantsInput;
-            header("Location: /productvariant/create?product_id=" . $productId);
+            header("Location: /productVariant/create?product_id=" . $productId);
             exit;
         }
 
@@ -257,7 +257,7 @@ class ProductVariantController extends Controller
             } catch (Exception $e) {
                 $_SESSION['error'] = "Lỗi dòng " . ($key+1) . ": " . $e->getMessage();
                 $_SESSION['old_variants'] = $variantsInput;
-                header("Location: /productvariant/create?product_id=" . $productId);
+                header("Location: /productVariant/create?product_id=" . $productId);
                 exit;
             }
         }
@@ -265,18 +265,18 @@ class ProductVariantController extends Controller
         $_SESSION['success'] = "Đã cập nhật thành công ($countUpdate sửa, $countNew thêm)!";
         if(isset($_SESSION['old_variants'])) unset($_SESSION['old_variants']);
         
-        header("Location: /productvariant/create?product_id=" . $productId);
+        header("Location: /productVariant/create?product_id=" . $productId);
         exit;
     }
 
     public function delete($id)
     {
-        $variantModel = $this->model('ProductVariantModel');
+        $variantModel = $this->model('productVariantModel');
         $variant = $variantModel->find($id);
         
-        $redirectUrl = "/productvariant";
+        $redirectUrl = "/productVariant";
         if ($variant) {
-            $redirectUrl = "/productvariant/create?product_id=" . $variant['product_id'];
+            $redirectUrl = "/productVariant/create?product_id=" . $variant['product_id'];
             if (!empty($variant['image']) && file_exists($variant['image'])) {
                 unlink($variant['image']);
             }

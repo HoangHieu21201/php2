@@ -167,7 +167,6 @@
         <div class="col-lg-8 col-xl-9">
             <div class="tab-content" id="v-pills-tabContent">
                 
-                <!-- Tab 1: Thông tin tài khoản -->
                 <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel">
                     <div class="card border-0 shadow-sm rounded-4">
                         <div class="card-header bg-white py-4 border-bottom-0">
@@ -359,7 +358,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Logic xử lý API Địa chỉ (Giữ nguyên như cũ)
         const provinceSelect = document.getElementById('province');
         const districtSelect = document.getElementById('district');
         const wardSelect = document.getElementById('ward');

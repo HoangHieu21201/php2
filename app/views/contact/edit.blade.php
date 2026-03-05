@@ -48,7 +48,6 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
-                                        {{-- Ưu tiên hiển thị 'name' (khi nhập lỗi) rồi mới đến 'full_name' (từ DB) --}}
                                         <input type="text" class="form-control" id="name" name="name"
                                             value="{{ $contact['name'] ?? $contact['full_name'] ?? '' }}" placeholder="Enter your name" required />
                                     </div>

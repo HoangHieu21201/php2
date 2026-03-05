@@ -52,7 +52,7 @@
                                             <strong>Quản lý Biến thể</strong>
                                             <p class="mb-0 small text-muted">Giá và kho được quản lý tại đây.</p>
                                         </div>
-                                        <a href="/productvariant?product_id={{ $product['id'] }}" class="btn btn-outline-info btn-sm">
+                                        <a href="/productVariant?product_id={{ $product['id'] }}" class="btn btn-outline-info btn-sm">
                                             Đến trang Biến thể <i class="bi bi-arrow-right"></i>
                                         </a>
                                     </div>
